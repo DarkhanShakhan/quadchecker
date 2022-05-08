@@ -9,7 +9,10 @@ import (
 func main() {
 	reader := bufio.NewReader(os.Stdin)
 	name, _ := reader.ReadString('\t')
-	length := len(name)
+	if name == "" {
+		fmt.Println("Not a Raid function")
+		return
+	}
 	columns := 0
 	rows := 0
 	for _, v := range name {
@@ -20,11 +23,50 @@ func main() {
 		}
 	}
 	columns = columns / rows
-	fmt.Println(name)
-	fmt.Println(length, rows, columns)
-	fmt.Println(quadA(rows, columns))
-	fmt.Println(quadB(rows, columns))
-	fmt.Println(quadC(rows, columns))
+	first := true
+	raid := false
+	if name == quadA(rows, columns) {
+		fmt.Print("[quadA] [", rows, "] [", columns, "]")
+		first = false
+		raid = true
+	}
+	if name == quadB(rows, columns) {
+		if !first {
+			fmt.Print(" || ")
+		}
+		fmt.Print("[quadB] [", rows, "] [", columns, "]")
+		first = false
+		raid = true
+	}
+	if name == quadC(rows, columns) {
+		if !first {
+			fmt.Print(" || ")
+		}
+		fmt.Print("[quadC] [", rows, "] [", columns, "]")
+		first = false
+		raid = true
+	}
+	if name == quadD(rows, columns) {
+		if !first {
+			fmt.Print(" || ")
+		}
+		fmt.Print("[quadD] [", rows, "] [", columns, "]")
+		first = false
+		raid = true
+	}
+	if name == quadE(rows, columns) {
+		if !first {
+			fmt.Print(" || ")
+		}
+		fmt.Print("[quadE] [", rows, "] [", columns, "]")
+		first = false
+		raid = true
+	}
+	if !raid {
+		fmt.Println("Not a Raid function")
+	} else {
+		fmt.Println()
+	}
 }
 
 func quadA(h, v int) string {
@@ -75,6 +117,46 @@ func quadC(h, v int) string {
 				result += "A"
 			} else if i == h && (j == 1 || j == v) {
 				result += "C"
+			} else if i == 1 || i == h || j == 1 || j == v {
+				result += "B"
+			} else {
+				result += " "
+			}
+		}
+		result += "\n"
+	}
+	return result
+}
+
+func quadD(h, v int) string {
+	result := ""
+	for i := 1; i <= h; i++ {
+		for j := 1; j <= v; j++ {
+			if j == 1 && (i == 1 || i == h) {
+				result += "A"
+			} else if j == v && (i == 1 || i == h) {
+				result += "C"
+			} else if i == 1 || i == h || j == 1 || j == v {
+				result += "B"
+			} else {
+				result += " "
+			}
+		}
+		result += "\n"
+	}
+	return result
+}
+
+func quadE(h, v int) string {
+	result := ""
+	for i := 1; i <= h; i++ {
+		for j := 1; j <= v; j++ {
+			if j == 1 && i == 1 {
+				result += "A"
+			} else if (j == v && i == 1) || (i == h && j == 1) {
+				result += "C"
+			} else if j == v && i == h {
+				result += "A"
 			} else if i == 1 || i == h || j == 1 || j == v {
 				result += "B"
 			} else {
