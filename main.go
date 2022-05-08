@@ -11,15 +11,20 @@ func main() {
 	name, _ := reader.ReadString('\t')
 	length := len(name)
 	columns := 0
+	rows := 0
 	for _, v := range name {
 		if v == '\n' {
-			break
+			rows++
+		} else {
+			columns++
 		}
-		columns++
 	}
-	rows := length / columns
-	fmt.Println(name == quadA(rows, columns))
-	fmt.Println(name == quadB(rows, columns))
+	columns = columns / rows
+	fmt.Println(name)
+	fmt.Println(length, rows, columns)
+	fmt.Println(quadA(rows, columns))
+	fmt.Println(quadB(rows, columns))
+	fmt.Println(quadC(rows, columns))
 }
 
 func quadA(h, v int) string {
@@ -53,6 +58,25 @@ func quadB(h, v int) string {
 				result += "/"
 			} else if i == 1 || i == h || j == 1 || j == v {
 				result += "*"
+			} else {
+				result += " "
+			}
+		}
+		result += "\n"
+	}
+	return result
+}
+
+func quadC(h, v int) string {
+	result := ""
+	for i := 1; i <= h; i++ {
+		for j := 1; j <= v; j++ {
+			if i == 1 && (j == 1 || j == v) {
+				result += "A"
+			} else if i == h && (j == 1 || j == v) {
+				result += "C"
+			} else if i == 1 || i == h || j == 1 || j == v {
+				result += "B"
 			} else {
 				result += " "
 			}
